@@ -166,6 +166,7 @@ pybossa.taskLoaded(function(task, deferred) {
         p.prepend(from)
         div.append(p);
         var form = $('<form/>');
+        form.attr("id", "task_" + task.id);
         for(i=0;i<task.info.msgid_options.length;i++) {
             var radio = $('<div/>');
             radio.addClass('radio');
@@ -198,9 +199,11 @@ pybossa.presentTask(function(task, deferred) {
         //$("#question").html(task.info.question);
         $('#task-id').html(task.id);
         $('.btn-answer').off('click').on('click', function(evt) {
-            var answer = {'msgid': $("#msgid_" + task.id).val()};
+            var radio_name = 'input[name=options_' + task.id + ']:checked';
+            var answer = {'msgid': $(radio_name, '#task_' + task.id).val(),
+                          'task_run_id' : $(radio_name, '#task_' +
+                              task.id).attr('id')};
             if (answer.msgid != '') {
-                //console.log(answer);
                 pybossa.saveTask(task.id, answer).done(function() {
                     deferred.resolve();
                 });
