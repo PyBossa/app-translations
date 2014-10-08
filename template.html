@@ -34,7 +34,7 @@
 -->
 <div class="row skeleton"> <!-- Start Skeleton Row-->
     <div class="col-md-12 "><!-- Start of Question and Submission DIV (column) -->
-        <h1 id="question"><span id="i18n_question">Translate this string to: Spanish</span></h1> <!-- The question will be loaded here -->
+        <h1 id="question"><span id="i18n_question">Translate this string</span></h1> <!-- The question will be loaded here -->
         <div id="translations"></div><!-- Start of Photo DIV (column) -->
         <div id="answer"> <!-- Start DIV for the submission buttons -->
             <!-- If the user clicks this button, the saved answer will be value="yes"-->
@@ -142,7 +142,7 @@ function i18n_translate() {
 
 
 function loadUserProgress() {
-    pybossa.userProgress('flickrperson').done(function(data){
+    pybossa.userProgress('translations').done(function(data){
         var pct = Math.round((data.done*100)/data.total);
         $("#progress").css("width", pct.toString() +"%");
         $("#progress").attr("title", pct.toString() + "% completed!");
@@ -157,11 +157,15 @@ pybossa.taskLoaded(function(task, deferred) {
         var div = $('<div/>');
         div.attr('id', 'translation_' + task.id);
         var p = $('<p/>');
+        var from = $("<strong/>")
+        var to = $("<label/>")
+        from.text("From English: ")
         p.addClass('lead');
         p.text(task.info.msgid);
+        p.prepend(from)
         var input = $('<input/>')
         input.attr("type", 'text');
-        input.attr("placeholder", 'Translate here the string');
+        input.attr("placeholder", 'To Spanish');
         input.attr('id', 'msgid_' + task.id);
         input.addClass('form-control');
         div.append(p);
@@ -179,11 +183,12 @@ pybossa.presentTask(function(task, deferred) {
         loadUserProgress();
         //:i18n_translate();
         $('#translations').html('').append(task.info.translate);
+        $("#msgid_" + task.id).focus();
         //$("#question").html(task.info.question);
         $('#task-id').html(task.id);
         $('.btn-answer').off('click').on('click', function(evt) {
-            var answer = $(evt.target).attr("value");
-            if (typeof answer != 'undefined') {
+            var answer = {'msgid': $("#msgid_" + task.id).val()};
+            if (answer.msgid != '') {
                 //console.log(answer);
                 pybossa.saveTask(task.id, answer).done(function() {
                     deferred.resolve();
@@ -195,7 +200,7 @@ pybossa.presentTask(function(task, deferred) {
                 }
             }
             else {
-                $("#error").show();
+                alert("You should translate the string.")
             }
         });
         $("#loading").hide();
