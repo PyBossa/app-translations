@@ -9,10 +9,13 @@ e.get_all()
 tasks = []
 
 for t in e.tasks:
-    options = dict()
+    options = []
     i = 0
     for k in e.task_runs_df[t.id]['msgid'].keys():
-       options[k] = e.task_runs_df[t.id]['msgid'][k]
+        option = dict(task_run_id=None, msgid=None)
+        option['task_run_id'] = k
+        option['msgid'] = e.task_runs_df[t.id]['msgid'][k]
+        options.append(option)
     t.info['msgid_options'] = options
     tasks.append(t.info)
 
