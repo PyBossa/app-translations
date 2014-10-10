@@ -6,25 +6,15 @@ e = enki.Enki('a', 'http://localhost:5001', 'translationsvoting')
 e.get_all()
 
 
-po = polib.POFile()
-po.metadata = {
-    'Project-Id-Version': '1.0',
-    'Report-Msgid-Bugs-To': 'you@example.com',
-    'POT-Creation-Date': '2007-10-18 14:00+0100',
-    'PO-Revision-Date': '2007-10-18 14:00+0100',
-    'Last-Translator': 'you <you@example.com>',
-    'Language-Team': 'English <yourteam@example.com>',
-    'MIME-Version': '1.0',
-    'Content-Type': 'text/plain; charset=utf-8',
-    'Content-Transfer-Encoding': '8bit',
-}
+po = polib.pofile('/tmp/messages.po')
+for entry in po.untranslated_entries():
+    for t in e.tasks:
+        task_entry = polib.POEntry(
+            msgid=t.info['msgid'],
+            msgstr=t.info['msgstr'],
+            occurrences=t.info['occurrences'])
+        if entry.msgid == task_entry.msgid:
+            entry.msgstr = e.task_runs_df[t.id]['msgid'].describe()['top']
 
-for t in e.tasks:
-    entry = polib.POEntry(
-        msgid=t.info['msgid'],
-        msgstr=e.task_runs_df[t.id]['msgid'].describe()['top'],
-        occurrences=t.info['occurrences']
-    )
-    po.append(entry)
-
-po.save('/tmp/mio.mo')
+po.save('/tmp/new_messages.po')
+po.save_as_mofile('/tmp/messages.mo')
