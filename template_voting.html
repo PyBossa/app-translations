@@ -167,19 +167,22 @@ pybossa.taskLoaded(function(task, deferred) {
         div.append(p);
         var form = $('<form/>');
         form.attr("id", "task_" + task.id);
-        for(i=0;i<task.info.msgid_options.length;i++) {
+        if (task.info.hasOwnProperty('msgstr_options')) {
+        console.log('Adios');
+         for(i=0;i<task.info.msgstr_options.length;i++) {
             var radio = $('<div/>');
             radio.addClass('radio');
             var label = $('<label/>');
             var input = $('<input/>')
             input.attr("type", 'radio');
-            input.attr('id', task.info.msgid_options[i]['task_run_id']);
+            input.attr('id', task.info.msgstr_options[i]['task_run_id']);
             input.attr('name', 'options_' + task.id);
-            input.attr('value',task.info.msgid_options[i]['msgid'] );
-            label.text(task.info.msgid_options[i]['msgid']);
+            input.attr('value',task.info.msgstr_options[i]['msgstr'] );
+            label.text(task.info.msgstr_options[i]['msgstr']);
             label.append(input);
             radio.append(label);
             form.append(radio);
+         }
         }
         div.append(form);
         task.info.translate = div;
