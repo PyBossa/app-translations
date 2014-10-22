@@ -43,6 +43,12 @@ python vote.py
 pbs --project project_voting.json add_tasks --task-file=/tmp/translations_voting_tasks.json --redundancy=5
 ```
 
+And use a different task presenter:
+
+```bash
+pbs update_project --tasks-template template_voting.html
+```
+
 The first command will download all the translated strings, and transform them
 for the second project. It creates a file in the */tmp/* folder named
 *translations_voting_tasks.json*, and that file is the one that we used to
