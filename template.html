@@ -161,7 +161,13 @@ pybossa.taskLoaded(function(task, deferred) {
         var to = $("<label/>")
         from.text("From English: ")
         p.addClass('lead');
-        p.text(task.info.msgid);
+        if (task.info.hasOwnProperty('msgid')) {
+            p.text(task.info.msgid);
+            }
+        if (task.info.hasOwnProperty('string')) {
+            p.text(task.info.string)
+            console.log(task.info.string)
+            }
         p.prepend(from)
         var input = $('<input/>')
         input.attr("type", 'text');
@@ -187,8 +193,8 @@ pybossa.presentTask(function(task, deferred) {
         //$("#question").html(task.info.question);
         $('#task-id').html(task.id);
         $('.btn-answer').off('click').on('click', function(evt) {
-            var answer = {'msgid': $("#msgid_" + task.id).val()};
-            if (answer.msgid != '') {
+            var answer = {'msgstr': $("#msgid_" + task.id).val()};
+            if (answer.msgstr != '') {
                 //console.log(answer);
                 pybossa.saveTask(task.id, answer).done(function() {
                     deferred.resolve();
