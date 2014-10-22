@@ -8,6 +8,3 @@ template, check the:
   * [source code](http://github.com/PyBossa/app-translations)
   * [the official documentation of PyBossa](http://docs.pybossa.com/) and 
   * [the step by step tutorial.](http://docs.pybossa.com/en/latest/user/tutorial.html)
-
-* * *
-
