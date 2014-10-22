@@ -203,7 +203,7 @@ pybossa.presentTask(function(task, deferred) {
         $('#task-id').html(task.id);
         $('.btn-answer').off('click').on('click', function(evt) {
             var radio_name = 'input[name=options_' + task.id + ']:checked';
-            var answer = {'msgid': $(radio_name, '#task_' + task.id).val(),
+            var answer = {'msgstr': $(radio_name, '#task_' + task.id).val(),
                           'task_run_id' : $(radio_name, '#task_' +
                               task.id).attr('id')};
             if (answer.msgid != '') {

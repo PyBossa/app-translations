@@ -14,7 +14,7 @@ for entry in po.untranslated_entries():
             msgstr=t.info['msgstr'],
             occurrences=t.info['occurrences'])
         if entry.msgid == task_entry.msgid:
-            entry.msgstr = e.task_runs_df[t.id]['msgid'].describe()['top']
+            entry.msgstr = e.task_runs_df[t.id]['msgstr'].describe()['top']
 
 po.save('/tmp/new_messages.po')
 po.save_as_mofile('/tmp/messages.mo')
