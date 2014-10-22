@@ -11,12 +11,12 @@ tasks = []
 for t in e.tasks:
     options = []
     i = 0
-    for k in e.task_runs_df[t.id]['msgid'].keys():
-        option = dict(task_run_id=None, msgid=None)
+    for k in e.task_runs_df[t.id]['msgstr'].keys():
+        option = dict(task_run_id=None, msgstr=None)
         option['task_run_id'] = k
-        option['msgid'] = e.task_runs_df[t.id]['msgid'][k]
+        option['msgstr'] = e.task_runs_df[t.id]['msgstr'][k]
         options.append(option)
-    t.info['msgid_options'] = options
+    t.info['msgstr_options'] = options
     tasks.append(t.info)
 
 file = open('/tmp/translations_voting_tasks.json', 'w')
