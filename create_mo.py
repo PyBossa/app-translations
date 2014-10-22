@@ -1,7 +1,13 @@
 import enki
 import polib
+import sys
+try:
+    import settings
+except:
+    print "Please, create a settings.py file (see settings.py.tmpl)"
+    sys.exit()
 
-e = enki.Enki('a', 'http://localhost:5001', 'translationsvoting')
+e = enki.Enki(settings.APIKEY, settings.SERVER, settings.PROJECT)
 
 e.get_all()
 
